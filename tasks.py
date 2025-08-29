@@ -4,6 +4,9 @@ import os
 
 app = Flask(__name__)
 app.secret_key = 'secret-key'  # À sécuriser !
+# Limite à 16MB (tu peux ajuster la valeur)
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+
 
 DB_NAME = 'database.db'
 
