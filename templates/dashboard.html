@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <!-- Bootstrap CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+      padding-top: 50px;
+    }
+    .task-done {
+      text-decoration: line-through;
+      color: gray;
+    }
+    .task-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      margin-bottom: 10px;
+    }
+    .task-buttons a {
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 class="mb-4">👋 Bienvenue <strong>{{ user }}</strong></h2>
+
+    <form method="POST" class="input-group mb-4">
+      <input type="text" name="description" class="form-control" placeholder="Nouvelle tâche" required>
+      <button class="btn btn-primary" type="submit">Ajouter</button>
+    </form>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4>📝 Liste des tâches</h4>
+      <a href="/delete_done" class="btn btn-outline-danger btn-sm"
+         onclick="return confirm('Supprimer toutes les tâches faites ?')">
+        🗑 Supprimer les tâches terminées
+      </a>
+    </div>
+
+    {% for task in tasks %}
+      <div class="task-item">
+        <div>
+          {% if task[2] %}
+            ✅ <span class="task-done">{{ task[1] }}</span>
+          {% else %}
+            🔲 {{ task[1] }}
+          {% endif %}
+          <small class="text-muted">par {{ task[3] }}</small>
+        </div>
+        <div class="task-buttons">
+          {% if not task[2] %}
+            <a href="/done/{{ task[0] }}" class="btn btn-sm btn-success">✔️</a>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+
+    <div class="mt-4">
+      <a href="/logout" class="btn btn-secondary">🚪 Se déconnecter</a>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS (pour modals ou composants futurs) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
